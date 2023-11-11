@@ -210,6 +210,30 @@ public class UserInterface {
         }
     }
 
+    public void processContract(){
+        System.out.println("Alright Rumplestiltkin, name your terms");
+
+        System.out.println("What's the date of the contract: ");
+        String date = scanner.nextLine();
+
+        System.out.println("Customer name: ");
+        String customerName = scanner.nextLine();
+
+        System.out.println("Customer email: ");
+        String customerEmail = scanner.nextLine();
+
+        System.out.println("Contracted vehicle: ");
+        processGetByMakeModelRequest();
+
+        System.out.println("Total Price of the vehicle:");
+        double totalPrice = scanner.nextDouble();
+
+        System.out.println("What was the monthly payment: ");
+        double monthlyPayment = scanner.nextDouble();
+        scanner.nextLine();
+    }
+
+
     public void displayMenu() {
 
         boolean running = true;
@@ -225,6 +249,7 @@ public class UserInterface {
             System.out.println("7) List ALL vehicles");
             System.out.println("8) Add a vehicle");
             System.out.println("9) Remove a vehicle");
+            System.out.println("10) Add a contract");
             System.out.println("99) Leave me... ( T ^ T )");
 
             //this is a scanner that takes the input
@@ -260,6 +285,8 @@ public class UserInterface {
                 case "9":
                     processRemoveVehicleRequest();
                     break;
+                case"10":
+
                 case "99":
                     System.out.println("Fine, be that way T^T");
                     running = false;

@@ -4,7 +4,7 @@ public abstract class Contract {
     private String dateOfContract;
     private String customerName;
     private String customerEmail;
-    private String vehicleSold;
+    private Vehicle vehicleSold;
     private double totalPrice;
     private double monthlyPayment;
 
@@ -13,7 +13,7 @@ public abstract class Contract {
         this.dateOfContract = dateOfContract;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
-        this.vehicleSold = String.valueOf(vehicleSold);
+        this.vehicleSold = vehicleSold;
         this.totalPrice = totalPrice;
         this.monthlyPayment = monthlyPayment;
     }
