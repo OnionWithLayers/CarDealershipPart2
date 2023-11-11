@@ -48,13 +48,13 @@ public class UserInterface {
 
             List<Vehicle> vehicleMakeModel = dealership.getVehiclesByMakeModel(make, model);
             displayVehicles(vehicleMakeModel);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Failed. Work on it again");
         }
     }
 
     public void processGetByYearRequest() {
-        try{
+        try {
             System.out.println("What vehicle year would you like to start the search at: ");
             int min = scanner.nextInt();
 
@@ -64,7 +64,7 @@ public class UserInterface {
 
             List<Vehicle> vehicleYear = dealership.getVehiclesByYear(min, max);
             displayVehicles(vehicleYear);
-        }catch (Exception e){
+        } catch (Exception e) {
             scanner.nextLine();
             System.out.println("This didn't work out. Try again");
         }
@@ -77,7 +77,7 @@ public class UserInterface {
 
             List<Vehicle> vehicleColor = dealership.getVehiclesByColor(color);
             displayVehicles(vehicleColor);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Hmm, looks like something went wrong. Maybe try again?");
         }
 
@@ -210,8 +210,8 @@ public class UserInterface {
         }
     }
 
-    public void processContract(){
-        System.out.println("Alright Rumplestiltkin, name your terms");
+    public void processContract() {
+        List<Vehicle> vehicles = dealership.getAllVehicles();
 
         System.out.println("What's the date of the contract: ");
         String date = scanner.nextLine();
@@ -222,15 +222,35 @@ public class UserInterface {
         System.out.println("Customer email: ");
         String customerEmail = scanner.nextLine();
 
-        System.out.println("Contracted vehicle: ");
-        processGetByMakeModelRequest();
-
-        System.out.println("Total Price of the vehicle:");
-        double totalPrice = scanner.nextDouble();
-
-        System.out.println("What was the monthly payment: ");
-        double monthlyPayment = scanner.nextDouble();
+        System.out.println("Contracted vehicle vin or ID: ");
+        int vin = scanner.nextInt();
         scanner.nextLine();
+        Vehicle vroom = null;
+        for (Vehicle v : vehicles) {
+            if (vin == v.getVin()) {
+                vroom = v;
+            }
+        }
+
+        System.out.println("Alright Rumplestiltkin, what kind of contract was it");
+        System.out.println("1) LEASE");
+        System.out.println("2) SALE");
+        String type = scanner.nextLine();
+
+
+        Contract contract = null;
+        if (type.equalsIgnoreCase("1")) {
+            contract = new LeaseContract(date, customerName, customerEmail, vroom);
+        } else if (type.equalsIgnoreCase("2")) {
+            System.out.println("Would you like to finance the vehicle");
+            boolean financeOption = scanner.nextBoolean();
+            contract = new SalesContract(date, customerName, customerEmail, vroom, financeOption);
+        }
+
+        ContractFileManager contractFileManager = new ContractFileManager();
+        contractFileManager.saveContract(contract);
+        dealership.remove(vroom);
+
     }
 
 
@@ -285,8 +305,9 @@ public class UserInterface {
                 case "9":
                     processRemoveVehicleRequest();
                     break;
-                case"10":
-
+                case "10":
+                    processContract();
+                    break;
                 case "99":
                     System.out.println("Fine, be that way T^T");
                     running = false;
