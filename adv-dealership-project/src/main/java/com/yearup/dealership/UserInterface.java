@@ -251,6 +251,8 @@ public class UserInterface {
         contractFileManager.saveContract(contract);
         dealership.remove(vroom);
 
+        DealershipFileManager dealershipFileManager = new DealershipFileManager();
+        dealershipFileManager.saveDealership(dealership);
     }
 
 
